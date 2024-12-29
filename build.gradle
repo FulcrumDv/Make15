@@ -1,10 +1,10 @@
 plugins {
+    id 'java'
     id 'application'
-
 }
 
 application{
-  mainClassName = 'org.example.Main'
+  mainClass = 'RunApp'
 }
 
 group = 'org.example'
