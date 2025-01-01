@@ -1,5 +1,6 @@
 package entities;
 
+
 // This is the Rank enum. It will be used to represent the ranks of the cards in the deck.
 public enum Rank {
     TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8), NINE(9),
@@ -18,7 +19,6 @@ public enum Rank {
     public String toString(){
         return name();
     }
-
 
 
 }
