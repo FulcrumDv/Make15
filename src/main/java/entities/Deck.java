@@ -1,19 +1,20 @@
 package entities;
 import adt.Queue;
-import entities.Card;
-import entities.Suit;
-import entities.Rank;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 // Methods that the Deck class must implement
-interface DeckInteface{
+interface DeckInterface{
     public void shuffle();
-    public Card dealCards();
+    public Card dealCard();
     public void resetDeck();
 }
 
 
-public class Deck implements DeckInteface{
+public class Deck implements DeckInterface{
     private final Queue<Card> allCards;
 
     public Deck(){
@@ -25,24 +26,75 @@ public class Deck implements DeckInteface{
             }
         }
 
+        // Shuffle the deck
+        this.shuffle();
         // For debugging purposes
         //System.out.println(allCards);
     }
 
     @Override
     public void shuffle() {
+        // Create Array list rep for cards
+        int lengthOfCardQueue = allCards.size();
 
+        List<Card> listOfCards = new ArrayList<>();
 
+        for (int i = 0; i < lengthOfCardQueue; i++) {
+            if (!allCards.isEmpty()) {
+                // removing all cards and adding to list
+                listOfCards.add(allCards.dequeue());
+            }
+        }
+            // Shuffling the deck
+            Collections.shuffle(listOfCards);
+
+            // Add them back in a randomized order
+            for (Card card : listOfCards) {
+                allCards.enqueue(card);
+            }
 
     }
 
     @Override
-    public Card dealCards() {
-        return null;
+    public Card dealCard() {
+        return allCards.dequeue();
     }
 
-    @Override
-    public void resetDeck() {
+    public void resetDeck(){
+        while (!allCards.isEmpty()) {
+            allCards.dequeue();
+        }
 
+        for(Suit suit : Suit.values()){
+            for(Rank rank : Rank.values()){
+                allCards.enqueue(new Card(rank, suit));
+            }
+        }
+
+        this.shuffle();
+        }
+
+    // Getters
+    public boolean isEmpty(){
+        return allCards.isEmpty();
+    }
+
+    public Card topCard(){
+        // peeking at the top card without dequeue
+        return allCards.peek();
+    }
+
+    public int getSizeOfDeck(){
+        return allCards.size();
+    }
+
+    // For debugging
+    public void showTheDeck(){
+        allCards.printQueue();
+    }
+
+    public static void main(String[] args){
+        Deck deck = new Deck();
+        deck.showTheDeck();
     }
 }
