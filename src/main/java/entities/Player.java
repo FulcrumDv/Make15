@@ -1,7 +1,6 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Player {
     private String name;
@@ -17,9 +16,13 @@ public class Player {
         this.highestScore = 0;
     }
 
-    // Getters
+    // Getters and Setters
     public String getName(){
         return this.name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public int getScore(){
@@ -30,9 +33,25 @@ public class Player {
         return this.highestScore;
     }
 
-    public void showHand(){
-        System.out.println(hand);
+    public void addCardToHand(Card card){
+        hand.add(card);
     }
 
+    public void showHand(){
+        if (hand.isEmpty()){
+            System.out.println("Hand is empty");
+        } else {
+            // compares and sorts based on rank of the cards
+            Collections.sort(hand, new Comparator<Card>() {
+                @Override
+                public int compare(Card card, Card t1) {
+                    return card.getRank().compareTo(t1.getRank());
+                }
+            });
+            for (int i = 0; i < hand.size(); i++){
+                System.out.print("(" + (i + 1) + ") " + hand.get(i) + " ");
+            }
+        }
+    }
 
 }

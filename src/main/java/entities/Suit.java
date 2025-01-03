@@ -3,7 +3,7 @@ package entities;
 // This is the Suit enum. It will be used to represent the suits of the cards in the deck.
     public enum Suit {
     CLUBS,
-    HEATS,
+    HEARTS,
     DIAMONDS,
     SPADES;
 
