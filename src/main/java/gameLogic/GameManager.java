@@ -26,13 +26,13 @@ public class GameManager {
 
     }
 
-    public GameManager() {
-        // constructor
+    public void initGame() {
 
     }
 
-    public void initGame() {
-
+    private void dealFirstCards(){
+        for (int i = 0; i < 5; i++){
+            player.addCardToHand(deck.dealCard());
     }
 
     public void gameLoop() {

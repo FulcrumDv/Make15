@@ -11,4 +11,5 @@ package entities;
         // This will return the name of the suit
         return name();
     }
+
 }

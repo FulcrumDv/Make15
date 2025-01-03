@@ -6,7 +6,11 @@ import entities.Player;
 import java.util.Scanner;
 
 public class gameUI {
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
+
+    public gameUI(){
+        this.scanner = new Scanner(System.in);
+    }
 
     // initial message to get the player's name and welcome them to the game
     public void initialMessage(Player player){
@@ -15,11 +19,15 @@ public class gameUI {
         player.setName(name);
     }
 
-//    public Card askPlayerForCard(Player player){
- //       System.out.println("Please enter the card you would like to play: ");
-  //      String card = scanner.nextLine();
-//
-  //   }
+    public Card askPlayerForCard(Player player){
+        System.out.println("Please enter the card you would like to play: ");
+        String card = scanner.nextLine();
+        while (true) {
+            try{
+                int userInput = scanner.nextInt();
+                if (userInput = )
+        }
+    }
 
     // show all the cards in the player's hand
     public void displayHand(Player player){
