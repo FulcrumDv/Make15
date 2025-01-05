@@ -2,6 +2,7 @@ package userInterface;
 
 import entities.Card;
 import entities.Player;
+import gameLogic.Rules;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,33 +69,56 @@ public class gameUI {
 
     // if the player has picture cards in their hand, ask if they would like to replace them
     public List<Card> askToReplacePictureCards(Player player) {
-        List<Card> playerHand = player.getPlayerHand();
+        System.out.println("Would you like to replace any picture cards? (Y/N)");
+
+        List<Card> playerHand = player.getPlayerHand(); // Get the player's current hand
+
         while (true) {
             String response = scanner.nextLine().trim().toUpperCase();
+
             if (response.equals("N")) {
-                return new ArrayList<>();
+                return new ArrayList<>(); // Return an empty list if the player doesn't want to replace cards
             } else if (response.equals("Y")) {
-                System.out.println("Enter the corresponding number of the picture card you wish to replace: ");
-                try {
-                    String userInput = scanner.nextLine();
-                    String[] cardsToReplace = userInput.split("\\s+");
-                    List<Card> cards = player.getCardsToExchange(cardsToReplace);
-                    if (cards.isEmpty()) {
-                        logger.info("No valid picture cards selected for replacement.");
-                        System.out.println("No valid picture cards selected. Please try again.");
-                    } else {
-                        return cards;
+                System.out.println("Enter the corresponding numbers of the picture cards to replace, separated by spaces:");
+                String userInput = scanner.nextLine().trim();
+
+                if (userInput.isEmpty()) {
+                    System.out.println("No input detected. Please enter numbers corresponding to your cards.");
+                    continue;
+                }
+
+                String[] cardIndices = userInput.split("\\s+");
+                List<Card> selectedCards = new ArrayList<>();
+
+                for (String indexStr : cardIndices) {
+                    try {
+                        int index = Integer.parseInt(indexStr) - 1; // Convert to zero-based index
+
+                        if (index >= 0 && index < playerHand.size()) {
+                            Card card = playerHand.get(index);
+                            if (Rules.isPictureCard(card)) {
+                                selectedCards.add(card); // Add the valid picture card to the list
+                            } else {
+                                System.out.println(card + " is not a picture card. Ignoring.");
+                            }
+                        } else {
+                            System.out.println("Invalid card number: " + (index + 1));
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input: " + indexStr + ". Please enter valid numbers.");
                     }
-                } catch (NumberFormatException e) {
-                    logger.info("Invalid input. Enter the numbers of the cards you would like to replace separated by a space.");
-                    System.out.println("Invalid input. Please enter valid numbers corresponding to your cards.");
+                }
+
+                if (selectedCards.isEmpty()) {
+                    System.out.println("No valid picture cards selected. Please try again.");
+                } else {
+                    return selectedCards; // Return the selected picture cards
                 }
             } else {
                 System.out.println("Invalid response. Please enter 'Y' for yes or 'N' for no.");
             }
         }
     }
-
 
     // if the player makes 15
     public void displayMaking15(){

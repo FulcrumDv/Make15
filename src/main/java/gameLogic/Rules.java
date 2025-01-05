@@ -20,6 +20,7 @@ public class Rules {
             return true;
         }
     }
+        System.out.println("You have no valid moves left. Game over.");
         return false;
     }
 

@@ -3,8 +3,8 @@ package recording;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class Leaderboard {
     private Map<String, Integer> highScores;
@@ -44,7 +44,11 @@ public class Leaderboard {
                 return;
             }
 
-            highScores = objectMapper.readValue(file, objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, Integer.class));
+            // Load existing name → score pairs
+            this.highScores = objectMapper.readValue(
+                    file,
+                    objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, Integer.class)
+            );
         } catch (Exception e) {
             System.err.println("Error loading leaderboard data: " + e.getMessage());
             e.printStackTrace();
@@ -60,12 +64,58 @@ public class Leaderboard {
         }
     }
 
+    /**
+     * Adds a new entry for the same name without overwriting the old one
+     * by creating a unique key for each new score.
+     *
+     * Then keeps only the top 5 entries.
+     */
     public void addEntry(String name, int score) {
-        highScores.put(name, score);
+        // 1. Create a unique key so the same 'name' won't overwrite old entries.
+        //    Example: "Jack_1662302947392" => 4
+        String uniqueKey = name + "_" + System.currentTimeMillis();
+
+        // 2. Put this new entry in the map
+        highScores.put(uniqueKey, score);
+
+        // 3. Keep only the top 5 entries
+        keepOnlyTop5();
+
+        // 4. Save after each addition
+        saveScores();
+    }
+
+    /**
+     * Sort the entire map in descending order by score and keep only top 5.
+     */
+    private void keepOnlyTop5() {
+        // Convert the map entries to a list
+        List<Entry<String, Integer>> list = new ArrayList<>(highScores.entrySet());
+
+        // Sort by score in descending order
+        list.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        // Keep only the top 5
+        if (list.size() > 5) {
+            list = list.subList(0, 5);
+        }
+
+        // Rebuild the linked map with only the top 5
+        LinkedHashMap<String, Integer> newMap = new LinkedHashMap<>();
+        for (Entry<String, Integer> e : list) {
+            newMap.put(e.getKey(), e.getValue());
+        }
+
+        // Update the highScores reference
+        highScores = newMap;
     }
 
     public void displayScores() {
         System.out.println("Leaderboard:");
-        highScores.forEach((name, score) -> System.out.printf("%-10s | %d%n", name, score));
+        highScores.forEach((uniqueKey, score) -> {
+            // If you want to strip out the suffix, parse the part before '_'
+            String name = uniqueKey.contains("_") ? uniqueKey.substring(0, uniqueKey.lastIndexOf("_")) : uniqueKey;
+            System.out.printf("%-10s | %d%n", name, score);
+        });
     }
 }
