@@ -64,13 +64,11 @@ public class Player {
                 if (Rules.isPictureCard(cardIndex)){
                     cards.add(cardIndex);
                 }
-
             }
-            cards.add(hand.get(index - 1));
-
         }
         return cards;
     }
+
 
 
 

@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class Leaderboard {
-    private Map<String, Integer> highScores;
+    public Map<String, Integer> highScores;
     private final String resourcePath;
 
     public Leaderboard(String resourcePath) {

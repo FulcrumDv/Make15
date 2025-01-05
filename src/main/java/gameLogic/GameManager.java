@@ -202,7 +202,7 @@ public class GameManager {
         }
     }
 
-    private boolean replacePictureCards() {
+    public boolean replacePictureCards() {
         // Ask the player which picture cards they want to replace
         List<Card> cardsToReplace = gameUi.askToReplacePictureCards(player);
 
@@ -241,5 +241,10 @@ public class GameManager {
         leaderboard.saveScores();
 
         leaderboard.displayScores();
+    }
+
+    // For testing purposes
+    public boolean isGameOver() {
+        return isGameOver;
     }
 }
