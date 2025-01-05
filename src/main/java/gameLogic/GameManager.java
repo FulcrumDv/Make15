@@ -69,14 +69,14 @@ public class GameManager {
                 // Ask the player to play a card
                 Card playerCard = gameUi.askPlayerForCard(player);
 
-                // Remove the card from the player's hand and add it to discarded cards
+                // Removes the card from the player's hand and add it to discarded cards
                 player.dequeueCardInHand(playerCard);
                 discardedCards.add(playerCard);
 
-                // Determine the outcome of the round
+                // outcome will determine what the result of the round is
                 String outcome;
 
-                // 1. If the player makes 15
+                // If the player managers to makes 15
                 if (Rules.sumIs15(playerCard, computerCard)) {
                     currentScore++;
                     gameUi.displayMaking15();
@@ -133,7 +133,6 @@ public class GameManager {
                         break;
                     }
 
-                    // 2. If the player's card matches the suit
                 } else if (Rules.matchesSuit(playerCard, computerCard)) {
                     gameUi.displayCardSameSuit(playerCard);
 
@@ -153,42 +152,40 @@ public class GameManager {
 
                     outcome = "Same Suit";
 
-                    // 3. If the move is invalid
                 } else {
                     gameUi.displayInvalidMove();
                     outcome = "Invalid Move";
                     isGameOver = true;
                 }
 
-                // Log this round with the correct outcome each time
+                // Log this stage/user interaction
+                outcome = "Made 15";
                 replayGame.logRound(
-                        new ArrayList<>(player.getPlayerHand()), // Player's hand after the move
-                        computerCard,                            // Computer's card
-                        List.of(playerCard),                     // The card the player played
-                        outcome                                  // Outcome of the round
+                        new ArrayList<>(player.getPlayerHand()),
+                        computerCard,
+                        List.of(playerCard),
+                        outcome
                 );
+                    if ("Invalid Move".equals(outcome) || isGameOver) {
+                      break;
+                    }
 
-                // End the loop if the move was invalid or the game is over
-                if ("Invalid Move".equals(outcome) || isGameOver) {
-                    break;
-                }
-
-            } catch (Exception e) {
-                System.out.println("An error occurred, Game over!");
-                gameUi.displayFinalScore(currentScore);
-                isGameOver = true;
-            }
+                    } catch (Exception e) {
+                      System.out.println("An error occurred, Game over!");
+                      gameUi.displayFinalScore(currentScore);
+                      isGameOver = true;
+                    }
         }
 
-        // Display the final score and offer a replay
+        // Displays the final score and offer a replay
         gameUi.displayFinalScore(currentScore);
         System.out.println("Would you like to watch the replay? (Y/N)");
         String choice = scanner.nextLine().trim().toUpperCase();
         if (choice.equals("Y")) {
-            replayGame.displayReplay(false); // Replay in chronological order
+            replayGame.displayReplay(false); 
         }
 
-        // Prompt for leaderboard name and update leaderboard
+        // asks the user for the their name and will update the leaderboard
         changeAndDisplayLeaderboard();
     }
 
@@ -210,17 +207,17 @@ public class GameManager {
         List<Card> cardsToReplace = gameUi.askToReplacePictureCards(player);
 
         if (cardsToReplace.isEmpty()) {
-            System.out.println("No picture cards selected for replacement. Continuing the game.");
-            return true; // No replacement needed, game continues
+            System.out.println("No picture cards selected for replacement. The game will continue.");
+            return true;
         }
 
-        // Replace each selected picture card
+        // Replace all of the selected picture cards
         for (Card card : cardsToReplace) {
             // Remove the card from the player's hand
             player.dequeueCardInHand(card);
-            discardedCards.add(card); // Add the removed card to the discard pile
+            discardedCards.add(card);
 
-            // Replace the card with a new one from the deck, if available
+            // Replace the card with a new one from the deck if there is one available
             if (!deck.isEmpty()) {
                 player.addCardToHand(deck.dealCard());
             } else {
@@ -232,7 +229,7 @@ public class GameManager {
             }
         }
 
-        return true; // Replacement successful, game continues
+        return true;
     }
 
     public void changeAndDisplayLeaderboard() {

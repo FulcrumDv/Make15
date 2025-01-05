@@ -48,11 +48,13 @@ public class Player {
     public List<Card> getPlayerHand(){
         return hand;
     }
-
+  
+    // Removes card from the deck
     public void dequeueCardInHand(Card card){
         hand.remove(card);
     }
-
+  
+    // Retriveing the card that will be replaced
     public List<Card> getCardsToExchange(String[] cardsToExchange){
         List<Card> cards = new ArrayList<>();
         for (String card : cardsToExchange){

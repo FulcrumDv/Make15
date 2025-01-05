@@ -6,24 +6,22 @@ public class MenuDisplay {
     }
 
     public static void WelcomeMessage(){
-        System.out.println("""
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                ~   __  __      _         _ ___   ~
-                ~  |  \\/  |__ _| |_____  / | __|  ~
-                ~  | |\\/| / _` | / / -_) | |__ \\  ~
-                ~  |_|  |_\\__,_|_\\_\\___| |_|___/  ~
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                """);
-    }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                "~   __  __     _     _  __ _____   _  ____    ~\n" +
+                "~  |  \\/  |   / \\   | |/ /| ____| / || ___|   ~\n" +
+                "~  | |\\/| |  / _ \\  | ' / |  _|   | ||___ \\   ~\n" +
+                "~  | |  | | / ___ \\ | . \\ | |___  | | ___) |  ~\n" +
+                "~  |_|  |_|/_/   \\_\\|_|\\_\\|_____| |_||____/   ~\n" +
+                "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"); }
 
     public static void mainMenu(){
-        System.out.println("Welcome to Make 15! Select an option from the menu by typing its corresponding number");
+        System.out.println();
+        System.out.println("Welcome! Select an option from the menu by entering its corresponding number");
 
         System.out.println("1. Play new game");
         System.out.println("2. View Leaderboard");
-        System.out.println("3. Replay a previous game");
-        System.out.println("4. Help");
-        System.out.println("5. Exit");
+        System.out.println("3. Help");
+        System.out.println("4. Exit");
     }
 
     public static void helpMenu(){

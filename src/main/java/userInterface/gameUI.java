@@ -19,8 +19,9 @@ public class gameUI {
 
     // First stage of the game is a welcome message and ask for the player's name
     public void initialMessage(Player player){
-        System.out.println("-------------------------------");
-        System.out.println("Welcome to make15, lets play!");
+        System.out.println("-----------------------------------------------------");
+        System.out.println("               Welcome to make15, lets play!");
+        System.out.println("-----------------------------------------------------");
     }
 
     // Display the player's hand
@@ -46,7 +47,7 @@ public class gameUI {
         // displayHand(player);  <-- You can call this here if you'd like, but let's assume it's called in GameManager
 
         List<Card> playerHand = player.getPlayerHand();
-        System.out.println("Please enter the card you would like to play: ");
+        System.out.print("Please enter the card you would like to play: ");
         while (true) {
             try{
                 String input = scanner.nextLine();

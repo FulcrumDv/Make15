@@ -2,6 +2,7 @@ package entities;
 import adt.Queue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,8 +94,16 @@ public class Deck implements DeckInterface{
         allCards.printQueue();
     }
 
-    public static void main(String[] args){
-        Deck deck = new Deck();
-        deck.showTheDeck();
+    // For testing purposes
+    public List<Card> getAllCardsAsList(){
+        List<Card> listOfCards = new ArrayList<>();
+        int lengthOfCardQueue = allCards.size();
+        for (int i = 0; i < lengthOfCardQueue; i++) {
+            if (!allCards.isEmpty()) {
+                // removing all cards and adding to list
+                listOfCards.add(allCards.dequeue());
+            }
+        }
+        return listOfCards;
     }
 }

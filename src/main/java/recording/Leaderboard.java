@@ -12,25 +12,25 @@ public class Leaderboard {
 
     public Leaderboard(String resourcePath) {
         this.resourcePath = resourcePath;
-        this.highScores = new LinkedHashMap<>(); // Initialize an empty leaderboard
-        initializeFile(); // Ensure the file exists
-        loadScores();     // Load the scores from the file
+        this.highScores = new LinkedHashMap<>(); 
+        initializeFile(); 
+        loadScores();   
     }
 
+    // If there is no file found it will automatically create
     private void initializeFile() {
         try {
             File file = new File(resourcePath);
             if (!file.exists()) {
-                System.out.println("File not found: " + resourcePath + ". Creating a new file...");
+                System.out.println("File not found: " + resourcePath + ". Creating a new file!");
                 if (file.getParentFile() != null) {
-                    file.getParentFile().mkdirs(); // Create directories if necessary
+                    file.getParentFile().mkdirs(); 
                 }
-                file.createNewFile(); // Create the file
-                saveScores(); // Save an empty leaderboard
+                file.createNewFile(); 
+                saveScores(); 
             }
         } catch (Exception e) {
             System.err.println("Error creating file: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -39,22 +39,21 @@ public class Leaderboard {
             ObjectMapper objectMapper = new ObjectMapper();
             File file = new File(resourcePath);
 
-            if (file.length() == 0) { // If the file is empty, leave highScores as an empty map
+            if (file.length() == 0) {
                 System.out.println("File is empty. Initializing an empty leaderboard.");
                 return;
             }
 
-            // Load existing name → score pairs
-            this.highScores = objectMapper.readValue(
-                    file,
-                    objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, Integer.class)
-            );
+            // Loads the exisiting names with their scores
+            this.highScores = objectMapper.readValue(file,objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, Integer.class));
         } catch (Exception e) {
             System.err.println("Error loading leaderboard data: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+  
+    
     public void saveScores() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -64,15 +63,12 @@ public class Leaderboard {
         }
     }
 
-    /**
-     * Adds a new entry for the same name without overwriting the old one
-     * by creating a unique key for each new score.
+
+    /* 
      *
-     * Then keeps only the top 5 entries.
-     */
+     * 
+     * */
     public void addEntry(String name, int score) {
-        // 1. Create a unique key so the same 'name' won't overwrite old entries.
-        //    Example: "Jack_1662302947392" => 4
         String uniqueKey = name + "_" + System.currentTimeMillis();
 
         // 2. Put this new entry in the map
@@ -111,11 +107,18 @@ public class Leaderboard {
     }
 
     public void displayScores() {
-        System.out.println("Leaderboard:");
+        System.out.println();
+        System.out.println("============ LEADERBOARD ============");
+        System.out.printf("%-15s | %-5s%n", "Player Name", "Score");
+        System.out.println("-------------------------------------");
+
         highScores.forEach((uniqueKey, score) -> {
-            // If you want to strip out the suffix, parse the part before '_'
             String name = uniqueKey.contains("_") ? uniqueKey.substring(0, uniqueKey.lastIndexOf("_")) : uniqueKey;
-            System.out.printf("%-10s | %d%n", name, score);
+            System.out.printf("%-15s | %-5d%n", name, score);
         });
+
+        System.out.println("=====================================");
+        System.out.println();
     }
+
 }

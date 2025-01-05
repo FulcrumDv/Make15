@@ -26,33 +26,31 @@ public class ConsoleManager {
             MenuDisplay.WelcomeMessage();
             MenuDisplay.mainMenu();
 
-            System.out.println("\n Enter choice: ");
+            System.out.print("\nEnter choice: ");
             String usersChoice = scanner.nextLine();
-            logger.info("User entered choice: " + usersChoice);
+            System.out.println("\n");
+            MenuDisplay.clearDisplay();
 
             switch (usersChoice) {
                 case "1":
-                    logger.info("Starting new game...");
                     StartNewGame();
                     break;
                 case "2":
-                    logger.info("Viewing leaderboard...");
+                    clearDisplay();
                     leaderboard.displayScores();
+                    System.out.println("Press Enter to go back: ");
+                    scanner.nextLine();
                     break;
                 case "3":
-                    logger.info("Replaying previous game...");
-                    replayGame();
+                    clearDisplay();
+                    MenuDisplay.helpMenu();
+                    System.out.println("Press Enter to go back: ");
+                    scanner.nextLine();
                     break;
                 case "4":
-                    logger.info("Displaying help menu...");
-                    MenuDisplay.helpMenu();
-                    break;
-                case "5":
-                    logger.info("Exiting game...");
                     exitGame();
                     break;
                 default:
-                    logger.info("Invalid choice, please try again");
                     System.out.println("Invalid choice, please try again");
             }
         }
@@ -72,10 +70,6 @@ public class ConsoleManager {
 
     public void getHelp() {
         MenuDisplay.helpMenu();
-    }
-
-    public void replayGame() {
-        System.out.println("Not done!");
     }
 
     public void exitGame() {
