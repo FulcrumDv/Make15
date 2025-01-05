@@ -64,26 +64,21 @@ public class Leaderboard {
     }
 
 
-    /* 
-     *
-     * 
-     * */
+    /*
+     * I needed to add a unique key to the name to avoid overwriting the same name
+     * I used the current time in milliseconds to create a unique key, I found it was standard practice
+     */
     public void addEntry(String name, int score) {
         String uniqueKey = name + "_" + System.currentTimeMillis();
 
-        // 2. Put this new entry in the map
         highScores.put(uniqueKey, score);
-
-        // 3. Keep only the top 5 entries
         keepOnlyTop5();
-
-        // 4. Save after each addition
         saveScores();
     }
 
-    /**
-     * Sort the entire map in descending order by score and keep only top 5.
-     */
+
+     //Sort the entire map in descending order by score and keep only top 5.
+
     private void keepOnlyTop5() {
         // Convert the map entries to a list
         List<Entry<String, Integer>> list = new ArrayList<>(highScores.entrySet());
@@ -91,12 +86,11 @@ public class Leaderboard {
         // Sort by score in descending order
         list.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        // Keep only the top 5
         if (list.size() > 5) {
             list = list.subList(0, 5);
         }
 
-        // Rebuild the linked map with only the top 5
+        // Remake linked map with only the top 5
         LinkedHashMap<String, Integer> newMap = new LinkedHashMap<>();
         for (Entry<String, Integer> e : list) {
             newMap.put(e.getKey(), e.getValue());
