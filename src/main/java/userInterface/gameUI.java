@@ -3,37 +3,86 @@ package userInterface;
 import entities.Card;
 import entities.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class gameUI {
-    private Scanner scanner;
+    private final Scanner scanner;
+    private final Logger logger = Logger.getLogger(gameUI.class.getName());
 
     public gameUI(){
         this.scanner = new Scanner(System.in);
     }
 
-    // initial message to get the player's name and welcome them to the game
+    // First stage of the game is a welcome message and ask for the player's name
     public void initialMessage(Player player){
-        System.out.println("Welcome to make15! Please enter your name: ");
-        String name = scanner.nextLine();
-        player.setName(name);
+        System.out.println("-------------------------------");
+        System.out.println("Welcome to make15, lets play!");
+    }
+
+    // Display the player's hand
+    public void displayHand(Player player){
+        System.out.println("You have been dealt the following cards: ");
+        player.showHand();
+        System.out.println();
+    }
+
+    // shows the card dealt by the computer
+    public void displayComputerCard(Card computerCard){
+        System.out.println("Computer has dealt: " + computerCard);
+        System.out.println();
     }
 
     public Card askPlayerForCard(Player player){
+        List<Card> playerHand = player.getPlayerHand();
         System.out.println("Please enter the card you would like to play: ");
-        String card = scanner.nextLine();
         while (true) {
             try{
-                int userInput = scanner.nextInt();
-                if (userInput = )
+                int userInput = Integer.parseInt(scanner.nextLine());
+                if (userInput >= 1 && userInput <= player.getPlayerHand().size()){
+                    return playerHand.get(userInput - 1);
+                }
+                else{
+                    logger.info("Invalid selection. Please enter a number between 1 and 5");
+                }
+            } catch(NumberFormatException e){
+                logger.info("Invalid input. Enter a number between 1 and 5");
+            }
         }
     }
 
-    // show all the cards in the player's hand
-    public void displayHand(Player player){
-        System.out.println("Your hand: ");
-        player.showHand();
+
+    // if the player has picture cards in their hand, ask if they would like to replace them
+    public List<Card> askToReplacePictureCards(Player player) {
+        List<Card> playerHand = player.getPlayerHand();
+        while (true) {
+            String response = scanner.nextLine().trim().toUpperCase();
+            if (response.equals("N")) {
+                return new ArrayList<>();
+            } else if (response.equals("Y")) {
+                System.out.println("Enter the corresponding number of the picture card you wish to replace: ");
+                try {
+                    String userInput = scanner.nextLine();
+                    String[] cardsToReplace = userInput.split("\\s+");
+                    List<Card> cards = player.getCardsToExchange(cardsToReplace);
+                    if (cards.isEmpty()) {
+                        logger.info("No valid picture cards selected for replacement.");
+                        System.out.println("No valid picture cards selected. Please try again.");
+                    } else {
+                        return cards;
+                    }
+                } catch (NumberFormatException e) {
+                    logger.info("Invalid input. Enter the numbers of the cards you would like to replace separated by a space.");
+                    System.out.println("Invalid input. Please enter valid numbers corresponding to your cards.");
+                }
+            } else {
+                System.out.println("Invalid response. Please enter 'Y' for yes or 'N' for no.");
+            }
+        }
     }
+
 
     // if the player makes 15
     public void displayMaking15(){
@@ -51,16 +100,15 @@ public class gameUI {
         System.out.println("current score: " + player.getScore());
     }
 
-    // shows the card dealt by the computer
-    public void displayComputerCard(Card computerCard){
-        System.out.println("Computer has dealt: " + computerCard);
+    // game over message
+    public static void displayDeckEmpty(){
+        System.out.println("Deck is empty! Game over!");
+    }
+    public static void displayFinalScore(int score){
+        System.out.println("Your final score is: " + score);
     }
 
-    // game over message
-    void displayFinalMessage(Player player){
-        System.out.println("Deck Empty Game Over! ");
-        System.out.println("Your final score is: " + player.getScore());
-    }
+
 
 
 

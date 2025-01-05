@@ -1,29 +1,20 @@
 package entities;
-
+import gameLogic.Rules;
 import java.util.*;
 
 public class Player {
-    private String name;
     private List<Card> hand;
     private int score;
     private int highestScore;
 
 
-    public Player(String name){
-        this.name = name;
+    public Player(){
         this.hand = new ArrayList<>();
         this.score = 0;
         this.highestScore = 0;
     }
 
     // Getters and Setters
-    public String getName(){
-        return this.name;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
 
     public int getScore(){
         return this.score;
@@ -49,9 +40,34 @@ public class Player {
                 }
             });
             for (int i = 0; i < hand.size(); i++){
-                System.out.print("(" + (i + 1) + ") " + hand.get(i) + " ");
+                System.out.println("(" + (i + 1) + ") " + hand.get(i) + " ");
             }
         }
+    }
+
+    public List<Card> getPlayerHand(){
+        return hand;
+    }
+
+    public void dequeueCardInHand(Card card){
+        hand.remove(card);
+    }
+
+    public List<Card> getCardsToExchange(String[] cardsToExchange){
+        List<Card> cards = new ArrayList<>();
+        for (String card : cardsToExchange){
+            int index = Integer.parseInt(card);
+            if (index > 0 && index <= hand.size()) {
+                Card cardIndex = hand.get(index - 1);
+                if (Rules.isPictureCard(cardIndex)){
+                    cards.add(cardIndex);
+                }
+
+            }
+            cards.add(hand.get(index - 1));
+
+        }
+        return cards;
     }
 
 

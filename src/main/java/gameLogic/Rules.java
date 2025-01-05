@@ -2,6 +2,7 @@ package gameLogic;
 
 
 import entities.Card;
+import entities.Rank;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Rules {
     static final int maxCardsInDeck = 52;
 
     // checks if the player has a valid move to play, if not the game will end
-    public boolean isValidMove(List<Card> playerHand, Card computerCard){
+    public static boolean isValidMove(List<Card> playerHand, Card computerCard){
         // Iterate through all elements in List and check if any make 15 with computer card or has same suit
         for (int i = 0; i < maxCardsInHand; i++) {
             Card card = playerHand.get(i);
@@ -33,10 +34,28 @@ public class Rules {
         return computerCard.getSuit().equals(playerCard.getSuit());
     }
 
+    // will check if the player has a card that matches the suit of the computer's card
+    public static boolean hasTheSameSuit(List<Card> playerHand, Card computerCard){
+        for (int i = 0; i < maxCardsInHand; i++){
+            if (playerHand.get(i).getSuit().equals(computerCard.getSuit())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Displays that there was an invalidPlay and game will end
+    public static void invalidPlay(){
+        System.out.println("Invalid play. Game over.");
+    }
+
+
     // checks if a picture card play is allowed
 
     public static boolean isPictureCard(Card playerCard){
-        return playerCard.getRank().getValue() == 11;
+        return playerCard.getRank() == Rank.JACK || playerCard.getRank() == Rank.QUEEN
+                || playerCard.getRank() == Rank.KING;
+
     }
 
 
