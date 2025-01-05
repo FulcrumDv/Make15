@@ -65,7 +65,7 @@ public class Leaderboard {
 
 
     /*
-     * I needed to add a unique key to the name to avoid overwriting the same name
+     * I needed/chose to add a unique key to the name to avoid overwriting the same name
      * I used the current time in milliseconds to create a unique key, I found it was standard practice
      */
     public void addEntry(String name, int score) {

@@ -24,14 +24,26 @@ public class MenuDisplay {
         System.out.println("4. Exit");
     }
 
-    public static void helpMenu(){
-        System.out.println("The game involves playing cards which you have 5 of to make 15 with the computer's \n " +
-                "card or playing a card of the same suit as the computer's card.");
-        System.out.println("If you make 15, you get a point. If you play a card of the same suit as the computer's card, the game continues.");
-        System.out.println("If you have no valid moves left, the game ends.");
-        System.out.println("You can also replace picture cards in your hand.");
-        System.out.println("The game ends when the deck is empty or you have no valid moves left.");
-
+    public static void helpMenu() {
+        System.out.println("""
+        +-------------------------------------------------------------+
+        |                         HELP MENU                           |
+        +-------------------------------------------------------------+
+        | The game involves playing cards which you have 5 of to make |
+        | 15 with the computer's card or playing a card of the same   |
+        | suit as the computer's card.                                |
+        |                                                             |
+        | If you make 15, you get a point. If you play a card of the  |
+        | same suit as the computer's card, the game continues.       |
+        |                                                             |
+        | If you have no valid moves left, the game ends.             |
+        |                                                             |
+        | You can also replace picture cards in your hand.            |
+        |                                                             |
+        | The game ends when the deck is empty or you have no valid   |
+        | moves left.                                                 |
+        +-------------------------------------------------------------+
+        """);
     }
 
 

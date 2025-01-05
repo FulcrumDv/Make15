@@ -108,7 +108,7 @@ public class GameManager {
                                 player.addCardToHand(deck.dealCard());
                                 gameUi.displayHand(player);
                             } else {
-                                gameUi.displayDeckEmpty();
+                                gameUI.displayDeckEmpty();
                                 outcome = "Made 15";
                                 replayGame.logRound(
                                         new ArrayList<>(player.getPlayerHand()),
@@ -129,7 +129,7 @@ public class GameManager {
                         computerCard = deck.dealCard();
                         gameUi.displayComputerCard(computerCard);
                     } else {
-                        gameUi.displayDeckEmpty();
+                        gameUI.displayDeckEmpty();
                         break;
                     }
 
@@ -146,7 +146,7 @@ public class GameManager {
                         computerCard = deck.dealCard();
                         gameUi.displayComputerCard(computerCard);
                     } else {
-                        gameUi.displayDeckEmpty();
+                        gameUI.displayDeckEmpty();
                         break;
                     }
 
@@ -166,26 +166,26 @@ public class GameManager {
                         List.of(playerCard),
                         outcome
                 );
-                    if ("Invalid Move".equals(outcome) || isGameOver) {
-                      break;
-                    }
+                if (isGameOver) {
+                    break;
+                }
 
-                    } catch (Exception e) {
-                      System.out.println("An error occurred, Game over!");
-                      gameUi.displayFinalScore(currentScore);
-                      isGameOver = true;
-                    }
+            } catch (Exception e) {
+                System.out.println("An error occurred, Game over!");
+                gameUI.displayFinalScore(currentScore);
+                isGameOver = true;
+            }
         }
 
         // Displays the final score and offer a replay
-        gameUi.displayFinalScore(currentScore);
+        gameUI.displayFinalScore(currentScore);
         System.out.println("Would you like to watch the replay? (Y/N)");
         String choice = scanner.nextLine().trim().toUpperCase();
         if (choice.equals("Y")) {
-            replayGame.displayReplay(false); 
+            replayGame.displayReplay(false);
         }
 
-        // asks the user for the their name and will update the leaderboard
+        // asks the user for their name and will update the leaderboard
         changeAndDisplayLeaderboard();
     }
 
@@ -195,8 +195,8 @@ public class GameManager {
             gameUi.displayHand(player);
             return true;
         } else {
-            gameUi.displayDeckEmpty();
-            gameUi.displayFinalScore(currentScore);
+            gameUI.displayDeckEmpty();
+            gameUI.displayFinalScore(currentScore);
             isGameOver = true;
             return false;
         }
@@ -222,8 +222,8 @@ public class GameManager {
                 player.addCardToHand(deck.dealCard());
             } else {
                 // End the game if the deck is empty
-                gameUi.displayDeckEmpty();
-                gameUi.displayFinalScore(currentScore);
+                gameUI.displayDeckEmpty();
+                gameUI.displayFinalScore(currentScore);
                 isGameOver = true;
                 return false;
             }

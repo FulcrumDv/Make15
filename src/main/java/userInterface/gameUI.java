@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 public class gameUI {
     private final Scanner scanner;
-    private final Logger logger = Logger.getLogger(gameUI.class.getName());
 
     public gameUI(){
         this.scanner = new Scanner(System.in);
@@ -19,9 +18,9 @@ public class gameUI {
 
     // First stage of the game is a welcome message and ask for the player's name
     public void initialMessage(Player player){
-        System.out.println("-----------------------------------------------------");
-        System.out.println("               Welcome to make15, lets play!");
-        System.out.println("-----------------------------------------------------");
+        System.out.println("--------------------------------------");
+        System.out.println("           Welcome to make15          ");
+        System.out.println("--------------------------------------");
     }
 
     // Display the player's hand
@@ -43,9 +42,6 @@ public class gameUI {
     }
 
     public Card askPlayerForCard(Player player){
-        // Always display the updated hand just before asking
-        // displayHand(player);  <-- You can call this here if you'd like, but let's assume it's called in GameManager
-
         List<Card> playerHand = player.getPlayerHand();
         System.out.print("Please enter the card you would like to play: ");
         while (true) {
@@ -56,12 +52,10 @@ public class gameUI {
                     Card chosenCard = playerHand.get(userInput - 1);
                     return chosenCard;
                 } else {
-                    logger.info("Invalid selection. Please enter a number between 1 and " + playerHand.size());
                     System.out.println("Invalid selection. Please try again.");
                 }
             } catch(NumberFormatException e){
-                logger.info("Invalid input. Enter a numeric index of a card in your hand.");
-                System.out.println("Invalid input. Please enter a valid number for the card index.");
+                System.out.print("Invalid input. Please enter a valid number for the card index: ");
             }
         }
     }
@@ -93,12 +87,12 @@ public class gameUI {
 
                 for (String indexStr : cardIndices) {
                     try {
-                        int index = Integer.parseInt(indexStr) - 1; // Convert to zero-based index
+                        int index = Integer.parseInt(indexStr) - 1;
 
                         if (index >= 0 && index < playerHand.size()) {
                             Card card = playerHand.get(index);
                             if (Rules.isPictureCard(card)) {
-                                selectedCards.add(card); // Add the valid picture card to the list
+                                selectedCards.add(card);
                             } else {
                                 System.out.println(card + " is not a picture card. Ignoring.");
                             }
@@ -113,7 +107,7 @@ public class gameUI {
                 if (selectedCards.isEmpty()) {
                     System.out.println("No valid picture cards selected. Please try again.");
                 } else {
-                    return selectedCards; // Return the selected picture cards
+                    return selectedCards;
                 }
             } else {
                 System.out.println("Invalid response. Please enter 'Y' for yes or 'N' for no.");
@@ -124,12 +118,15 @@ public class gameUI {
     // if the player makes 15
     public void displayMaking15(){
         System.out.println("You made 15! You get 1 point");
+        System.out.println();
     }
 
     // if the player has a card that is the same suit as the computer's card
     public void displayCardSameSuit(Card card){
-        System.out.println("You have played " + card + " which is the same suit as the computer's card! " +
-                "The game will continue.");
+        System.out.println();
+        System.out.println(card + " is the same suit as the computer's card! " +
+                "game continues.");
+        System.out.println();
     }
 
     // display the player's current score
@@ -146,10 +143,9 @@ public class gameUI {
     }
 
 
-
-
-
-
-
-
 }
+
+
+
+
+

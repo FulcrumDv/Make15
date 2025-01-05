@@ -2,16 +2,19 @@ package entities;
 import adt.Queue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 
 // Methods that the Deck class must implement
 interface DeckInterface{
-    public void shuffle();
-    public Card dealCard();
-    public void resetDeck();
+    void shuffle();
+    Card dealCard();
+    void resetDeck();
+    int getSizeOfDeck();
+    List<Card> getAllCardsAsList();
+    void showTheDeck();
+    Card topCard();
 }
 
 
@@ -85,11 +88,13 @@ public class Deck implements DeckInterface{
         return allCards.peek();
     }
 
+    @Override
     public int getSizeOfDeck(){
         return allCards.size();
     }
 
     // For debugging
+    @Override
     public void showTheDeck(){
         allCards.printQueue();
     }
