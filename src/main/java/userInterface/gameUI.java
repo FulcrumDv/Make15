@@ -29,6 +29,11 @@ public class gameUI {
         System.out.println();
     }
 
+    // display invalid move
+    public void displayInvalidMove(){
+        System.out.println("Not a valid move!");
+    }
+
     // shows the card dealt by the computer
     public void displayComputerCard(Card computerCard){
         System.out.println("Computer has dealt: " + computerCard);
@@ -36,22 +41,29 @@ public class gameUI {
     }
 
     public Card askPlayerForCard(Player player){
+        // Always display the updated hand just before asking
+        // displayHand(player);  <-- You can call this here if you'd like, but let's assume it's called in GameManager
+
         List<Card> playerHand = player.getPlayerHand();
         System.out.println("Please enter the card you would like to play: ");
         while (true) {
             try{
-                int userInput = Integer.parseInt(scanner.nextLine());
-                if (userInput >= 1 && userInput <= player.getPlayerHand().size()){
-                    return playerHand.get(userInput - 1);
-                }
-                else{
-                    logger.info("Invalid selection. Please enter a number between 1 and 5");
+                String input = scanner.nextLine();
+                int userInput = Integer.parseInt(input.trim());
+                if (userInput >= 1 && userInput <= playerHand.size()){
+                    Card chosenCard = playerHand.get(userInput - 1);
+                    return chosenCard;
+                } else {
+                    logger.info("Invalid selection. Please enter a number between 1 and " + playerHand.size());
+                    System.out.println("Invalid selection. Please try again.");
                 }
             } catch(NumberFormatException e){
-                logger.info("Invalid input. Enter a number between 1 and 5");
+                logger.info("Invalid input. Enter a numeric index of a card in your hand.");
+                System.out.println("Invalid input. Please enter a valid number for the card index.");
             }
         }
     }
+
 
 
     // if the player has picture cards in their hand, ask if they would like to replace them
